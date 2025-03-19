@@ -9,4 +9,4 @@
 
 Более Подробная инструкция привидена ниже:
 
-![Uploading image.png…]()
+https://w7.pngwing.com/pngs/467/256/png-transparent-alesis-logo-household-brands-logos.png
