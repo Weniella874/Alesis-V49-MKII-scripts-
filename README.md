@@ -9,4 +9,5 @@
 
 Более Подробная инструкция привидена ниже:
 
-https://w7.pngwing.com/pngs/467/256/png-transparent-alesis-logo-household-brands-logos.png
+![image](https://github.com/user-attachments/assets/9782a518-d88f-4bb2-863a-d9a7015cef86)
+
