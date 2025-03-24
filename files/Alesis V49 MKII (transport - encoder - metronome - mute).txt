@@ -1,0 +1,80 @@
+# name=Alesis V49 MKII
+import channels
+import transport
+import mixer
+import midi
+
+# Настройки номеров CC и каналов кнопок
+CC_PLAY = 20
+CC_RECORD = 21
+CC_METRONOME = 22
+CC_MUTE = 23
+ENCODER_CC = 24
+ENCODER_MAX = 127
+SENSITIVITY = 1
+
+last_channel = -1
+
+def OnControlChange(event):
+    global last_channel
+
+    # Энкодер для переключения каналов
+    if event.data1 == ENCODER_CC:
+        total_channels = channels.channelCount()
+        cc_value = event.data2
+
+        # Если CC = 0 — выбираем первый канал
+        if cc_value == 0:
+            channels.deselectAll()
+            channels.selectChannel(0)
+            last_channel = 0
+            print(f"Channel selected: 1 (automatic reset at CC=0)")
+            event.handled = True
+            return
+
+        # Вычисляем индекс канала с более чувствительным шагом для небольшого числа каналов
+        if total_channels < 8:
+            sensitivity_factor = 127 // (total_channels - 1)
+        else:
+            sensitivity_factor = 1
+
+        channel_index = int(cc_value / sensitivity_factor)
+
+        if channel_index >= total_channels:
+            channel_index = total_channels - 1
+
+        if abs(channel_index - last_channel) >= SENSITIVITY:
+            channels.deselectAll()
+            channels.selectChannel(channel_index)
+            last_channel = channel_index
+            print(f"Channel selected: {channel_index + 1}")
+            event.handled = True
+
+    # Кнопка Play/Stop
+    elif event.data1 == CC_PLAY and event.data2 == 127:
+        if transport.isPlaying():
+            transport.stop()
+            print("Transport Stopped")
+        else:
+            transport.start()
+            print("Transport Started")
+        event.handled = True
+
+    # Кнопка Record
+    elif event.data1 == CC_RECORD and event.data2 == 127:
+        transport.record()
+        print("Record toggled")
+        event.handled = True
+
+    # Кнопка Metronome
+    elif event.data1 == CC_METRONOME and event.data2 == 127:
+        transport.globalTransport(midi.FPT_Metronome, 1)
+        print("Metronome toggled")
+        event.handled = True
+
+    # Кнопка Mute текущего канала
+    elif event.data1 == CC_MUTE and event.data2 == 127:
+        selected = channels.selectedChannel()
+        channels.muteChannel(selected)
+        print(f"Muted channel: {selected + 1}")
+        event.handled = True
