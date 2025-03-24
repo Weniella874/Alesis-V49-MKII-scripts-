@@ -9,5 +9,5 @@
 
 Более Подробная инструкция использования привидена ниже:
 
-![image](https://github.com/user-attachments/assets/9782a518-d88f-4bb2-863a-d9a7015cef86)
+![image]
 
