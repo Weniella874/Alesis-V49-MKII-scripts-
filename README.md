@@ -9,5 +9,5 @@
 
 Более Подробная инструкция использования привидена ниже:
 
-![image]
+![image](https://github.com/Weniella874/Alesis-V49-MKII-scripts-/blob/main/7f035e69-1f05-4037-b393-9febf57ff6dd_922.jpg)
 
